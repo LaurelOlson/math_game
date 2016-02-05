@@ -32,26 +32,31 @@ def verify_answer(player)
   @player_answer == @answer ? true : false
 end
 
+def play_round(player)
+  prompt_player_for_answer(player)
+  verify_answer(player)
+  if verify_answer(player)
+    puts "Correct!"
+    @winner = player
+  else
+    puts "Incorrect."
+  end
+end
+
 #binding.pry
 def play_game
   while @player_1[:lives] != 0 && @player_2[:lives] != 0
-    prompt_player_for_answer('Player 1')
-    verify_answer('Player 1')
-    if verify_answer('Player 1')
-      puts "Correct!"
+    play_round('Player 1')
+    if @winner == 'Player 1'
       @player_1[:score] += 1
     else
-      puts "Incorrect."
       @player_1[:lives] -= 1
     end
 
-    prompt_player_for_answer('Player 2')
-    verify_answer('Player 2')
-    if verify_answer('Player 2')
-      puts "Correct!"
+    play_round('Player 2')
+    if @winner == 'Player 2'
       @player_2[:score] += 1
     else
-      puts "Incorrect."
       @player_2[:lives] -= 1
     end
   end
@@ -67,6 +72,3 @@ def play_game
 end
 
 play_game
-
-
-
