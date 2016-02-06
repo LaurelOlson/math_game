@@ -3,14 +3,6 @@ require 'colorize'
 require './player'
 require './question'
 
-puts "How many players are there?"
-n = gets.chomp.to_i
-players = []
-n.times do |i|
-  puts "What is player #{i+1}'s name?"
-  players[i] = Player.new(gets.chomp.to_s, 3)
-end
-
 # Takes players[n] as an argument. 
 # Puts the string interpoloation of @player_n.name plus the question created by generate_question, then asks for user input.
 # Stores user input in player[n].answer. 
@@ -81,9 +73,17 @@ def play_game(players)
       player.reset_lives
       player.reset_score
     end
-    play_game(players, question)
+    play_game(players)
   else
   end
+end
+
+puts "How many players are there?"
+n = gets.chomp.to_i
+players = []
+n.times do |i|
+  puts "What is player #{i+1}'s name?"
+  players[i] = Player.new(gets.chomp.to_s)
 end
 
 play_game(players)

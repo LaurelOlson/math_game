@@ -1,10 +1,10 @@
 class Player
   attr_accessor :name, :score, :lives, :answer
 
-  def initialize(name, max_life)
+  def initialize(name)
     @name = name
     @score = 0
-    @lives = max_life
+    @lives = 3
     @answer = ""
   end
 
@@ -17,6 +17,10 @@ class Player
   end
 
   def reset_lives
-    @lives = max_life
+    @lives = 3
+  end
+
+  def reset_score
+    @score = 0
   end
 end
