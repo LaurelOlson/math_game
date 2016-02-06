@@ -1,28 +1,24 @@
 require 'pry'
 require 'colorize'
 require './player'
+require './question'
 
 puts "What is player 1's name?"
-player_1 = Player.new(gets.chomp.to_s)
+@player_1 = Player.new(gets.chomp.to_s)
 
 puts "What is player 2's name?"
-player_2 = Player.new(gets.chomp.to_s)
+@player_2 = Player.new(gets.chomp.to_s)
 
 # Generates two random numbers between 1 and 20 and uses these numbers to create a simple addition, subtraction, or multiplication question
 def generate_question
-  num_1 = rand(1..20)
-  num_2 = rand(1..20)
-  operation = ['add', 'subtract', 'multiply'].sample
+  @question = Question.new(rand(1..20), rand(1..20), ['add', 'subtract', 'multiply'].sample)
 
-  if operation == 'add'
-    @answer = num_1 + num_2
-    @question = "What is the " + "sum".colorize(:bold).bold + " of #{num_1} and #{num_2}?"
-  elsif operation == 'subtract'
-    @answer = num_1 - num_2
-    @question = "What is the " + "difference".colorize(:bold).bold + " between #{num_1} and #{num_2}?"
-  elsif operation == 'multiply'
-    @answer = num_1 * num_2
-    @question = "What is the " + "product".colorize(:bold).bold + " of #{num_1} and #{num_2}?"
+  if @question.operator == 'add'
+    @question.addition_question
+  elsif @question.operator == 'subtract'
+    @question.subtraction_question
+  elsif @question.operator == 'multiply'
+    @question.multiplication_question
   else
   end
 end
@@ -32,13 +28,13 @@ end
 # Stores user input in @player_answer. 
 # If no argument is passed, NoArgument Error (0 for 1).
 def prompt_player_for_answer(player)
-  puts "#{player}".colorize(:underline).underline + ": #{@question}"
+  puts "#{player.name}".colorize(:underline).underline + ": #{generate_question}"
   @player_answer = gets.chomp.to_i
 end
 
 # Checks if @player_answer is equal to the actual answer and returns true or false accordingly
 def verify_answer
-  @player_answer == @answer ? true : false
+  @player_answer == @question.answer ? true : false
 end
 
 # Takes @player_1.score or @player_2.score as an argument. 
@@ -78,8 +74,8 @@ end
 # Calls display_results, then play_again? if the :lives of both players is zero.
 def play_game
   while @player_1.lives != 0 && @player_2.lives != 0
-    play_round("#{@player_1.name}")
-    play_round("#{@player_2.name}")
+    play_round(@player_1)
+    play_round(@player_2)
   end
 
   display_results
@@ -101,6 +97,5 @@ def play_again?
   end
 end
 
-binding.pry
-create_players
+# binding.pry
 play_game
