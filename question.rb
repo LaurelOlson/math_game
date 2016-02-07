@@ -1,7 +1,7 @@
 require 'colorize'
 
 class Question
-  attr_reader :num_1, :num_2, :operator, :question, :answer
+  attr_reader :question, :answer
 
   def initialize(min, max)
     @num_1 = rand(min..max)
